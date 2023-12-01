@@ -40,7 +40,7 @@ def pick():
 
 
 vertex_src = """
-# version 330
+# version 410
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec2 a_texture;
 
@@ -58,7 +58,7 @@ void main()
 """
 
 fragment_src = """
-# version 330
+# version 410
 
 in vec2 v_texture;
 
@@ -91,6 +91,10 @@ if not glfw.init():
     raise Exception("glfw can not be initialized!")
 
 # creating the window
+glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 4)
+glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 1)
+glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, GL_TRUE)
+glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
 window = glfw.create_window(1280, 720, "My OpenGL window", None, None)
 
 # check if window was created
@@ -152,6 +156,8 @@ cube_indices = [ 0,  1,  2,  2,  3,  0,
 
 cube_indices = np.array(cube_indices, dtype=np.uint32)
 
+VAO = glGenVertexArrays(1)
+glBindVertexArray(VAO)
 
 shader = compileProgram(compileShader(vertex_src, GL_VERTEX_SHADER), compileShader(fragment_src, GL_FRAGMENT_SHADER))
 
