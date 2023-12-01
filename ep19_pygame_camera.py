@@ -18,7 +18,7 @@ first_mouse = True
 
 
 vertex_src = """
-# version 330
+# version 410
 
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec2 a_texture;
@@ -38,7 +38,7 @@ void main()
 """
 
 fragment_src = """
-# version 330
+# version 410
 
 in vec2 v_texture;
 
@@ -71,9 +71,16 @@ def mouse_look(xpos, ypos):
 
 
 pygame.init()
+pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 4)
+pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 1)
+pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
+pygame.display.set_mode((1280, 720), pygame.OPENGL|pygame.DOUBLEBUF|pygame.RESIZABLE)
 pygame.display.set_mode((WIDTH, HEIGHT), pygame.OPENGL | pygame.DOUBLEBUF | pygame.RESIZABLE) # |pygame.FULLSCREEN
 pygame.mouse.set_visible(False)
 pygame.event.set_grab(True)
+
+VAO = glGenVertexArrays(1)
+glBindVertexArray(VAO)
 
 # load here the 3d meshes
 cube_indices, cube_buffer = ObjLoader.load_model("meshes/cube.obj", False)
