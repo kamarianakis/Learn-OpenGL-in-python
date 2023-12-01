@@ -1,3 +1,18 @@
+# Comments to fix: 
+# I think there are two bugs in your program:
+# #Bug1: you forget updating "pick_texture" when window_resize. 
+# If you maximize window, the cube with "brick" texture can not be picked. 
+# I have added these lines in window_resize function and it work well. 
+#      glBindTexture(GL_TEXTURE_2D, pick_texture)
+#     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_FLOAT, None)
+
+# #Bug2: you forget updating "pick_model" matrix transform when cubes rotating.
+# When cubes are rotating, picking is not correct.
+# I have added these lines to update pick_model and it work well for rotating.
+#      if red_rot or green_rot or blue_rot:
+#              pick_model = rot_y @ pick_model
+
+
 import glfw
 from OpenGL.GL import *
 from OpenGL.GL.shaders import compileProgram, compileShader
