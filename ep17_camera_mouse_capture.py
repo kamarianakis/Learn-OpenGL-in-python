@@ -38,7 +38,7 @@ def mouse_look_clb(window, xpos, ypos):
 
 
 vertex_src = """
-# version 330
+# version 410
 
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec2 a_texture;
@@ -58,7 +58,7 @@ void main()
 """
 
 fragment_src = """
-# version 330
+# version 410
 
 in vec2 v_texture;
 
@@ -85,6 +85,11 @@ if not glfw.init():
     raise Exception("glfw can not be initialized!")
 
 # creating the window
+glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 4)
+glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 1)
+glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, GL_TRUE)
+glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
+
 window = glfw.create_window(WIDTH, HEIGHT, "My OpenGL window", None, None)
 
 # check if window was created
@@ -106,7 +111,8 @@ glfw.set_input_mode(window, glfw.CURSOR, glfw.CURSOR_DISABLED)
 
 # make the context current
 glfw.make_context_current(window)
-
+VAO = glGenVertexArrays(1)
+glBindVertexArray(VAO)
 # load here the 3d meshes
 cube_indices, cube_buffer = ObjLoader.load_model("meshes/cube.obj")
 monkey_indices, monkey_buffer = ObjLoader.load_model("meshes/monkey.obj")
