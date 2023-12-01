@@ -9,7 +9,7 @@ import pyrr
 
 
 vertex_src = """
-# version 330
+# version 410
 
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec3 a_color;
@@ -29,7 +29,7 @@ void main()
 """
 
 fragment_src = """
-# version 330
+# version 410
 
 in vec3 v_color;
 in vec2 v_texture;
@@ -84,8 +84,19 @@ indices = [0,  1,  2,  2,  3,  0,
 vertices = np.array(vertices, dtype=np.float32)
 indices = np.array(indices, dtype=np.uint32)
 
+# glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 4)
+# glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 1)
+# glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, GL_TRUE)
+# glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
+
 pygame.init()
+pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MAJOR_VERSION, 4)
+pygame.display.gl_set_attribute(pygame.GL_CONTEXT_MINOR_VERSION, 1)
+pygame.display.gl_set_attribute(pygame.GL_CONTEXT_PROFILE_MASK, pygame.GL_CONTEXT_PROFILE_CORE)
 pygame.display.set_mode((1280, 720), pygame.OPENGL|pygame.DOUBLEBUF|pygame.RESIZABLE)
+
+VAO = glGenVertexArrays(1)
+glBindVertexArray(VAO)
 
 shader = compileProgram(compileShader(vertex_src, GL_VERTEX_SHADER), compileShader(fragment_src, GL_FRAGMENT_SHADER))
 

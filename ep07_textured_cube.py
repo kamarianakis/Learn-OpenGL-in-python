@@ -6,7 +6,7 @@ import pyrr
 from PIL import Image
 
 vertex_src = """
-# version 330
+# version 410
 
 layout(location = 0) in vec3 a_position;
 layout(location = 1) in vec3 a_color;
@@ -29,7 +29,7 @@ void main()
 """
 
 fragment_src = """
-# version 330
+# version 410
 
 in vec3 v_color;
 in vec2 v_texture;
@@ -53,6 +53,10 @@ if not glfw.init():
     raise Exception("glfw can not be initialized!")
 
 # creating the window
+glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 4)
+glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 1)
+glfw.window_hint(glfw.OPENGL_FORWARD_COMPAT, GL_TRUE)
+glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)
 window = glfw.create_window(1280, 720, "My OpenGL window", None, None)
 
 # check if window was created
@@ -68,7 +72,8 @@ glfw.set_window_size_callback(window, window_resize)
 
 # make the context current
 glfw.make_context_current(window)
-
+VAO = glGenVertexArrays(1)
+glBindVertexArray(VAO)
 vertices = [-0.5, -0.5,  0.5,  1.0, 0.0, 0.0,  0.0, 0.0,
              0.5, -0.5,  0.5,  0.0, 1.0, 0.0,  1.0, 0.0,
              0.5,  0.5,  0.5,  0.0, 0.0, 1.0,  1.0, 1.0,
